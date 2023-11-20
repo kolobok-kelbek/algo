@@ -1,4 +1,4 @@
-package merge
+package compare_recursive_merge
 
 import (
 	"github.com/stretchr/testify/assert"
@@ -36,7 +36,9 @@ func TestRecursiveMerge(t *testing.T) {
 	for i, c := range cases {
 		num := strconv.Itoa(i)
 		t.Run("case №"+num, func(t *testing.T) {
-			got := RecursiveMerge(c.data)
+			got := RecursiveMerge(func(value1 int, value2 int) bool {
+				return value1 >= value2
+			}, c.data)
 			assert.Equal(t, c.want, got)
 		})
 	}
@@ -64,7 +66,9 @@ func TestMerge(t *testing.T) {
 	for i, c := range cases {
 		num := strconv.Itoa(i)
 		t.Run("case №"+num, func(t *testing.T) {
-			got := merge(c.data1, c.data2)
+			got := merge(func(value1 int, value2 int) bool {
+				return value1 >= value2
+			}, c.data1, c.data2)
 			assert.Equal(t, c.want, got)
 		})
 	}
